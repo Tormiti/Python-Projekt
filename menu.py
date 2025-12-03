@@ -1,3 +1,6 @@
+import sys
+import jaratgeneralas  
+
 def menu():
     while True:
         print("\n=== Főmenü ===")
@@ -9,17 +12,22 @@ def menu():
         valasztas = input("Válassz egy menüpontot (1-4): ")
 
         if valasztas == "1":
-            print("➡ Járatok menüpont kiválasztva.")
-            # Ide jöhet majd a Járatok funkciója
+            print("➡ Járatok menüpont kiválasztva...")
+            print()
+            jaratgeneralas.jaratok_kiirasa()
+            input("\nNyomj ENTER-t a folytatáshoz...")
         elif valasztas == "2":
             print("➡ RTD menüpont kiválasztva.")
-            # Ide jöhet az RTD beíró funkció
+            # Ide majd jöhet az RTD funkció
         elif valasztas == "3":
             print("➡ Keresés menüpont kiválasztva.")
-            # Ide jöhet a kereső funkció
+            # Ide majd jöhet a kereső funkció
         elif valasztas == "4":
             print("Kilépés...")
-            break
+            sys.exit() #exit vagy break-el a világért nem akart kilépni
+
+            
+            
         else:
             print("Érvénytelen választás, próbáld újra!")
 

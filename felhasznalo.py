@@ -5,7 +5,8 @@ def felhasznalo():
     jelszo = "BudAirport2025+"
 
     while True:
-        print("BEJELENTKEZÉS:")
+        print("BEJELENTKEZÉS")
+        print("*" * 150)
         megadott_f = input("Felhasználó: ")
         megadott_j = input("Jelszó: ")
 
@@ -16,4 +17,6 @@ def felhasznalo():
         else:
             print("Hibás felhasználó vagy jelszó! Próbáld újra.\n")
 
-felhasznalo()
+
+if __name__ == "__main__":
+    felhasznalo()
