@@ -6,7 +6,7 @@ def felhasznalo():
 
     while True:
         print("BEJELENTKEZÉS")
-        print("*" * 150)
+        print("*" * 120)
         megadott_f = input("Felhasználó: ")
         megadott_j = input("Jelszó: ")
 
@@ -18,5 +18,3 @@ def felhasznalo():
             print("Hibás felhasználó vagy jelszó! Próbáld újra.\n")
 
 
-if __name__ == "__main__":
-    felhasznalo()
