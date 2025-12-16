@@ -24,7 +24,7 @@ def menu():
             # Ide majd jöhet a kereső funkció
         elif valasztas == "4":
             print("Kilépés...")
-            sys.exit() #exit vagy break-el a világért nem akart kilépni
+            sys.exit() #exit- vagy break-el a világért nem akart kilépni
 
             
             

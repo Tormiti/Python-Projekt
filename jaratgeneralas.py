@@ -1,10 +1,14 @@
 import random
 from datetime import datetime, timedelta
 
+jaratok_tarol = None
+
+
 def beolvas_lista(fajlnev):
     with open(fajlnev, "r", encoding="utf-8") as f:
         lista = [sor.strip() for sor in f.readlines() if sor.strip()]
     return lista
+
 
 class Jarat:
     def __init__(self, nev, jaratszam, kapu, utasszam, ETD, RTD):
@@ -16,85 +20,102 @@ class Jarat:
         self.RTD = RTD
 
     def kiiras(self):
-        # MEZŐK ELŐKÉSZÍTÉSE
-        jarat_mezo = f"BUD-{self.nev}"          # pl. BUD-DEB (Debrecen)
-        jaratszam_mezo = f"N8{self.jaratszam}"  # pl. N8123
-        pax_mezo = f"239/{self.utasszam}"
+        
+        jarat_megnevezes = f"BUD-{self.nev}"
 
-        kapu = self.kapu
-        etd = self.ETD
-        rtd = self.RTD
+        #basic
+        alap = (
+            f"{jarat_megnevezes:<35} | "
+            f"N8{self.jaratszam:<4} | "
+            f"Gate: {self.kapu:<5} | "
+            f"PAX: 239/{self.utasszam:<3} | "
+            f"ETD: {self.ETD} | "
+            f"RTD: {self.RTD}"
+        )
+
         status = ""
 
         # CANCELLED
         if self.utasszam < 60:
-            kapu = ""          # csak "Gate:" marad, szám nélkül
-            rtd = ""           # csak "RTD:" marad, idő nélkül
+            alap = (
+                f"{jarat_megnevezes:<35} | "
+                f"N8{self.jaratszam:<4} | "
+                f"Gate: {'-':<4} | "
+                f"PAX: 239/{self.utasszam:<3} | "
+                f"ETD: {self.ETD} | "
+                f"RTD: {'-':<4}"
+            )
             status = "CANCELLED"
 
         # OVERBOOKED
         elif self.utasszam > 239:
             status = "OVERBOOKED"
 
-        # FIX SZÉLESSÉGEK AZ OSZLOPOKNAK
-        return (
-            f"{jarat_mezo:<30} | "   # járat név (BUD-XXX...), 30 karakter széles
-            f"{jaratszam_mezo:<7} | "
-            f"Gate: {kapu:<4} | "
-            f"PAX: {pax_mezo:<11} | "
-            f"ETD: {etd:<5} | "
-            f"RTD: {rtd:<5} | "
-            f"{status:<10}"
-        )
+        
+        return f"{alap} | {status}"
 
-def random_ido():
-    base = datetime.now().replace(second=0, microsecond=0)
-    etd = base + timedelta(minutes=random.randint(5, 300))
-    rtd = etd + timedelta(minutes=random.randint(0, 30))
-    return etd.strftime("%H:%M"), rtd.strftime("%H:%M")
 
 def general_jaratok():
-    
+    global jaratok_tarol
+    if jaratok_tarol is not None:
+        
+        return jaratok_tarol
+
     schengen = beolvas_lista("schengen.txt")
-    nonschengen = beolvas_lista("nonschengen.txt")  
+    nonschengen = beolvas_lista("nonschengen.txt")
 
     schengen_kivalasztott = random.sample(schengen, min(20, len(schengen)))
     nonschengen_kivalasztott = random.sample(nonschengen, min(20, len(nonschengen)))
 
     jaratok = []
 
-    #(A kapuk)
+    
+    base = datetime.now().replace(second=0, microsecond=0)
+    lepes = timedelta(minutes=15)
+    index = 0  
+
+    # A KAPUK (Schengen)
     for dest in schengen_kivalasztott:
         jaratszam = random.randint(100, 999)
         kapu_szam = random.randint(1, 30)
         kapu = f"A{kapu_szam}"
-        utasszam = random.randint(10, 260)
-        etd, rtd = random_ido()
-        jaratok.append(Jarat(dest, jaratszam, kapu, utasszam, etd, rtd))
+        utasszam = random.randint(50, 260)
 
-    #(B kapuk)
+        etd_dt = base + index * lepes
+        etd = etd_dt.strftime("%H:%M")
+        rtd = "-"
+
+        jaratok.append(Jarat(dest, jaratszam, kapu, utasszam, etd, rtd))
+        index += 1
+
+    # B KAPUK (Non-Schengen)
     for dest in nonschengen_kivalasztott:
         jaratszam = random.randint(100, 999)
         kapu_szam = random.randint(1, 30)
         kapu = f"B{kapu_szam}"
         utasszam = random.randint(10, 260)
-        etd, rtd = random_ido()
-        jaratok.append(Jarat(dest, jaratszam, kapu, utasszam, etd, rtd))
 
-    return jaratok
+        etd_dt = base + index * lepes
+        etd = etd_dt.strftime("%H:%M")
+        
+        rtd = "-"
+
+        jaratok.append(Jarat(dest, jaratszam, kapu, utasszam, etd, rtd))
+        index += 1
+
+    
+    jaratok_tarol = jaratok
+    return jaratok_tarol
+
 
 def jaratok_kiirasa():
-    # Fejléc
     datum = datetime.now().strftime("%Y.%m.%d")
     print(f"JÁRATOK - {datum}")
-    print("=" * 150)
+    print("=" * 120)
 
     jaratok = general_jaratok()
     for j in jaratok:
         print(j.kiiras())
-        
-    print("=" * 150)
-#if __name__ == "__main__":
-   
+print("=" * 120)
 
 
