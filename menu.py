@@ -22,7 +22,9 @@ def menu():
             rtd_modositas()
         elif valasztas == "3":                
             print("➡ Keresés menüpont kiválasztva.")
-            # Ide majd jöhet a kereső funkció
+            from kereses import keres
+            keres()
+
         elif valasztas == "4":
             print("Kilépés...")
             sys.exit() #exit- vagy break-el a világért nem akart kilépni
