@@ -18,7 +18,8 @@ def menu():
             input("\nNyomj ENTER-t a folytatáshoz...")
         elif valasztas == "2":
             print("➡ RTD menüpont kiválasztva.")
-            # Ide majd jöhet az RTD funkció
+            import RTD
+            rtd.rtd_modositas()
         elif valasztas == "3":
             print("➡ Keresés menüpont kiválasztva.")
             # Ide majd jöhet a kereső funkció
