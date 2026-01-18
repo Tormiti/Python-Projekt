@@ -7,6 +7,19 @@ def  rtd_modositas():
         input("Folytatáshoz egy Enter-t")
         return 
     
-    jaratok = jaratgeneralas.general_jaratok()
+    jaratok = jaratgeneralas.jaratok_tarol() 
     
+print(" RTD módosítás ")
+keresett = input("Add meg a járatszámot (pl. 123): ")
+
+if keresett.startswith("N8"):
+    keresett = keresett[2:]
+
+talalat = None
+
+for jarat in jaratok:
+    if str(jarat.jaratszam) == keresett:
+        talalat = jarat
+        break
+
 
