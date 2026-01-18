@@ -33,4 +33,4 @@ def rtd_modositas():
 
     print("✔ RTD sikeresen módosítva!")
     input("ENTER a folytatáshoz...")
- #happy end
+
