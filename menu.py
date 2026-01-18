@@ -19,8 +19,8 @@ def menu():
         elif valasztas == "2":
             print("➡ RTD menüpont kiválasztva.")
             import RTD
-            rtd.rtd_modositas()
-        elif valasztas == "3":
+            RTD.rtd_modositas()
+        elif valasztas == "3":                
             print("➡ Keresés menüpont kiválasztva.")
             # Ide majd jöhet a kereső funkció
         elif valasztas == "4":
