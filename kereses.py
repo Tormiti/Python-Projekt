@@ -12,7 +12,7 @@ def keres():
     print("Kereshetsz: járatszámra, kapura, városra, ETD-re, RTD-re")
     keresett = input("Add meg a keresett értéket: ").strip().lower()
 
-    # ha N8-al kezdődik akkor off (levagjuk)
+    # ha N8-al kezdődik akkor off (levagjuk h lehessen N8 nelkul is keresni)
     if keresett.startswith("n8"):
         keresett = keresett[2:]
 
